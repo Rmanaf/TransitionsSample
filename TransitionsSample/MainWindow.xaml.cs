@@ -1,6 +1,5 @@
 ﻿using Divankits.Transitions;
 using System;
-using System.Timers;
 using System.Windows;
 using System.Windows.Media;
 
@@ -13,76 +12,31 @@ namespace TransitionsSample
     {
 
 
-        private static Timer _timer = null;
         private TranslateTransform EllipseTransform = new TranslateTransform();
 
         public MainWindow()
         {
             InitializeComponent();
 
-            TransitionFactory.FPS = 120;
+            CompositionTarget.Rendering += CompositionTarget_Rendering;
 
-            if (_timer == null)
-            {
-
-                _timer = new Timer(1);
-
-                _timer.Elapsed += _timer_Elapsed;
-
-                _timer.AutoReset = true;
-
-                _timer.Enabled = true;
-
-            }
-
-            Activated += MainWindow_Activated;
-
+            TranslateTransform EllipseTransform = new TranslateTransform();
             EllipseTarget.RenderTransform = EllipseTransform;
-
             EllipseTransform.X = -100;
 
+            TransitionFactory.Transform(EllipseTransform, "X", Divankits.Transitions.Easing.Elastic.EaseInOut, EllipseTransform.X, 100, 2.5)
+                .OnFinished += (s, evt) => { (s as Tween).Yoyo(); };
+
+
         }
 
-        private void _timer_Elapsed(object sender, ElapsedEventArgs e)
+        private void CompositionTarget_Rendering(object sender, EventArgs e)
         {
 
-            Action UpdateTransitionFactory = () =>
-            {
-
-                TransitionFactory.Update();
-
-            };
-
-            if (Dispatcher.CheckAccess())
-
-            {
-                UpdateTransitionFactory();
-
-            }
-            else
-            {
-
-                Dispatcher.Invoke(UpdateTransitionFactory);
-
-            }
+            TransitionFactory.Update();
 
         }
 
-
-        private void MainWindow_Activated(object sender, EventArgs e)
-        {
-
-            var tween = TransitionFactory.Transform(EllipseTransform, "X", Divankits.Transitions.Easing.Elastic.EaseInOut, EllipseTransform.X, 100, 2.5);
-
-            tween.OnFinished += (s, evt) =>
-            {
-
-                tween.Yoyo();
-
-
-            };
-
-        }
 
     }
 }
