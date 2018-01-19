@@ -3,6 +3,8 @@ Sample of using Divankits.Transitions package to make animations in C# code. Lib
 - WPF
 - Unity3D 
 
+> ActionScripts "Tween" and "Motion" classes includes Robert Penner's easing functions
+ 
 ### Nuget 
 
 ```bash
