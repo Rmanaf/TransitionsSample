@@ -1,5 +1,7 @@
 # Divankits.Transitions
-Sample of using Divankits.Transitions package to make animations in C# code
+Sample of using Divankits.Transitions package to make animations in C# code. Library has no dependency, it used .Net Framework 2.0 and Tested in :
+- WPF
+- Unity3D 
 
 ### Nuget 
 
